@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <title>Guess Game</title>
+    <style>
+        body {
+            background-color: #222;
+            color: #eee;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            transition: 0.5s;
+        }
+        .container {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        input {
+            padding: 15px;
+            font-size: 24px;
+            width: 80px;
+            text-align: center;
+            border: none;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            background: #00ff41;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #000;
+        }
+        button:hover { transform: scale(1.05); }
+        .message { font-size: 20px; margin-top: 20px; min-height: 30px; }
+        .score { margin-top: 20px; font-size: 18px; opacity: 0.8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Sonni top! (1-100)</h1>
+        <input type="number" id="guessInput" placeholder="?">
+        <br>
+        <button onclick="checkGuess()">TEKSHIRISH</button>
+        <div class="message" id="msg">O'yinni boshlang...</div>
+        <div class="score">Urinishlar soni: <span id="attempts">0</span></div>
+        <button onclick="resetGame()" style="margin-top: 20px; background: #555; color: white; font-size: 14px;">Qayta boshlash</button>
+    </div>
+
+    <script>
+        let secretNumber = Math.floor(Math.random() * 100) + 1;
+        let attempts = 0;
+
+        function checkGuess() {
+            const guess = document.getElementById('guessInput').value;
+            const msg = document.getElementById('msg');
+            const attemptsDisplay = document.getElementById('attempts');
+
+            if (!guess) {
+                msg.innerText = "Iltimos, son kiriting! 🧐";
+                return;
+            }
+
+            attempts++;
+            attemptsDisplay.innerText = attempts;
+
+            if (guess == secretNumber) {
+                msg.innerText = "G'ALABA! 🎉 Siz topdingiz!";
+                document.body.style.backgroundColor = "#2ecc71";
+                alert("Tabriklaymiz! Siz " + attempts + " urinishda topdingiz!");
+            } else if (guess > secretNumber) {
+                msg.innerText = "Kichikroq son ayting... ⬇️";
+                document.body.style.backgroundColor = "#e74c3c";
+            } else {
+                msg.innerText = "Kattaroq son ayting... ⬆️";
+                document.body.style.backgroundColor = "#3498db";
+            }
+        }
+
+        function resetGame() {
+            secretNumber = Math.floor(Math.random() * 100) + 1;
+            attempts = 0;
+            document.getElementById('attempts').innerText = attempts;
+            document.getElementById('msg').innerText = "Yangi o'yin boshlandi!";
+            document.getElementById('guessInput').value = "";
+            document.body.style.backgroundColor = "#222";
+        }
+    </script>
+</body>
+</html>
